@@ -1,18 +1,13 @@
-﻿[Unit]
-Description = myservice
-
-[Service]
-ExecStart = /usr/bin/dotnet /etc/myservice/myservice.dll
-WorkingDirectory = /etc/myservice/
-ProtectSystem=true
-ReadWriteDirectories=-/etc/myservice
-TimeoutStopSec=0
+﻿[Unit]  
+Description = dotnetcore sample service with generic host  
+  
+[Service]  
+ExecStart=/usr/bin/dotnet /etc/myservice/myservice.dll
+User=pc  
+Group=pc  
 Restart=on-failure  
-User=myservice
-Group=myservice
-RuntimeDirectory = myservice
-RuntimeDirectoryMode=2755
-
-[Install] 
-WantedBy = multi-user.target
-Alias = myservice.service
+SyslogIdentifier = dotnetcore-sample-generichost-service  
+PrivateTemp=true  
+  
+[Install]  
+WantedBy=multi-user.target  
