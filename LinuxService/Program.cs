@@ -2,7 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
-using System;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -51,8 +50,6 @@ namespace LinuxService
                 })
             .UseConsoleLifetime()
             .Build();
-
-            Console.WriteLine("v2");
 
             await host.RunAsync();
         }
