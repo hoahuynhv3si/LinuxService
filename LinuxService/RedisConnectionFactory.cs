@@ -18,15 +18,11 @@ namespace LinuxService
         public RedisConnectionFactory(IOptions<RedisConfiguration> redis)
         {
             _redisConfiguration = redis.Value;
+            _connection = new Lazy<ConnectionMultiplexer>(() => ConnectionMultiplexer.Connect(_redisConfiguration.Host));
         }
 
         public ConnectionMultiplexer Connection()
         {
-            if(_connection == null)
-            {
-                _connection = new Lazy<ConnectionMultiplexer>(() => ConnectionMultiplexer.Connect(_redisConfiguration.Host));
-            }
-
             return _connection.Value;
         }
     }

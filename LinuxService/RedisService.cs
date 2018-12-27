@@ -52,7 +52,7 @@ namespace LinuxService
             sub.Subscribe("chanel-2", (channel, message) =>
             {
                 Console.WriteLine(message);
-                _logger.LogDebug($"Subscribe method : {message}");
+                _logger.LogDebug($"Log method : {message}");
             });
         }
     }

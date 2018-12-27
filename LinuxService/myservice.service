@@ -1,13 +1,11 @@
-﻿[Unit]  
-Description = dotnetcore sample service with generic host  
-  
-[Service]  
-ExecStart=/usr/bin/dotnet /etc/myservice/myservice.dll
-User=pc  
-Group=pc  
-Restart=on-failure  
-SyslogIdentifier = dotnetcore-sample-generichost-service  
-PrivateTemp=true  
-  
-[Install]  
-WantedBy=multi-user.target  
+﻿[Unit]
+Description = dotnetcore sample service with generic host
+After = network.target
+
+[Service]
+ExecStart = /usr/bin/dotnet LinuxService.dll
+WorkingDirectory = /home/pc/myservice/LinuxService/LinuxService/bin/Debug/netcoreapp2.1/publish/
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target                          

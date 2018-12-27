@@ -52,7 +52,7 @@ namespace LinuxService
             .UseConsoleLifetime()
             .Build();
 
-
+            Console.WriteLine("v2");
 
             await host.RunAsync();
         }
