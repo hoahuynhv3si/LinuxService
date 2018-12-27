@@ -14,13 +14,15 @@ namespace LinuxService
         private readonly IHostingEnvironment environment;
         private readonly IConfiguration configuration;
         private readonly IRedisConnectorHelper redisConnectorHelper;
+        private readonly IRedisConnectionFactory _fact;
 
         public RedisService(
             IConfiguration configuration,
             IHostingEnvironment environment,
             ILogger<RedisService> logger,
             IApplicationLifetime appLifetime,
-            IRedisConnectorHelper redisConnectorHelper
+            IRedisConnectorHelper redisConnectorHelper,
+            IRedisConnectionFactory factory
         )
         {
             this.configuration = configuration;
@@ -28,6 +30,7 @@ namespace LinuxService
             this.appLifetime = appLifetime;
             this.environment = environment;
             this.redisConnectorHelper = redisConnectorHelper;
+            _fact = factory;
         }
 
 
@@ -48,7 +51,8 @@ namespace LinuxService
             this.logger.LogInformation("Subscribe method called.");
             Console.WriteLine("Subscribe chanel-2");
 
-            var sub = this.redisConnectorHelper.Connection.GetSubscriber();
+            //var sub = this.redisConnectorHelper.Connection.GetSubscriber();
+            var sub = _fact.Connection().GetSubscriber();
             sub.Subscribe("chanel-2", (channel, message) =>
             {
                 Console.WriteLine(message);

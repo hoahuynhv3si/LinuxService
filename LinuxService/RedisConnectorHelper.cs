@@ -28,4 +28,6 @@ namespace LinuxService
 
         public ConnectionMultiplexer Connection => lazyConnection.Value;
     }
+
+    
 }
