@@ -3,9 +3,10 @@ Description = dotnetcore sample service with generic host
 After = network.target
 
 [Service]
+Type = simple
 ExecStart = /usr/bin/dotnet LinuxService.dll
 WorkingDirectory = /home/pc/myservice/LinuxService/LinuxService/bin/Debug/netcoreapp2.1/publish/
 Restart=on-failure
 
 [Install]
-WantedBy=multi-user.target                          
+WantedBy=multi-user.target
