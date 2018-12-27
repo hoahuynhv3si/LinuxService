@@ -42,8 +42,6 @@ namespace LinuxService
                      services.Configure<RedisConfiguration>(hostContext.Configuration.GetSection("Redis"));
                      services.AddSingleton<IRedisConnectionFactory, RedisConnectionFactory>();
                      services.AddSingleton<IHostedService, RedisService>();
-
-
                  })
                 .ConfigureLogging((hostContext, configLogging) =>
                 {
