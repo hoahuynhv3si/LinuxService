@@ -9,54 +9,50 @@ namespace LinuxService
 {
     public class RedisService : IHostedService
     {
-        private readonly IApplicationLifetime appLifetime;
-        private readonly ILogger<RedisService> logger;
-        private readonly IHostingEnvironment environment;
-        private readonly IConfiguration configuration;
-        private readonly IRedisConnectorHelper redisConnectorHelper;
-        private readonly IRedisConnectionFactory _fact;
+        private readonly IApplicationLifetime _appLifetime;
+        private readonly ILogger<RedisService> _logger;
+        private readonly IHostingEnvironment _environment;
+        private readonly IConfiguration _configuration;
+        private readonly IRedisConnectionFactory _redisConnectionFactory;
 
         public RedisService(
             IConfiguration configuration,
             IHostingEnvironment environment,
             ILogger<RedisService> logger,
             IApplicationLifetime appLifetime,
-            IRedisConnectorHelper redisConnectorHelper,
-            IRedisConnectionFactory factory
+            IRedisConnectionFactory redisConnectionFactory
         )
         {
-            this.configuration = configuration;
-            this.logger = logger;
-            this.appLifetime = appLifetime;
-            this.environment = environment;
-            this.redisConnectorHelper = redisConnectorHelper;
-            _fact = factory;
+            _configuration = configuration;
+            _logger = logger;
+            _appLifetime = appLifetime;
+            _environment = environment;
+            _redisConnectionFactory = redisConnectionFactory;
         }
 
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            this.appLifetime.ApplicationStarted.Register(Subscribe);
+            this._appLifetime.ApplicationStarted.Register(Subscribe);
             return Task.CompletedTask;
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
-            this.logger.LogInformation("StopAsync method called.");
+            _logger.LogInformation("StopAsync method called.");
             return Task.CompletedTask;
         }
 
         private void Subscribe()
         {
-            this.logger.LogInformation("Subscribe method called.");
+            _logger.LogInformation("Subscribe method called.");
             Console.WriteLine("Subscribe chanel-2");
 
-            //var sub = this.redisConnectorHelper.Connection.GetSubscriber();
-            var sub = _fact.Connection().GetSubscriber();
+            var sub = _redisConnectionFactory.Connection().GetSubscriber();
             sub.Subscribe("chanel-2", (channel, message) =>
             {
                 Console.WriteLine(message);
-                this.logger.LogDebug($"Subscribe method : {message}");
+                _logger.LogDebug($"Subscribe method : {message}");
             });
         }
     }

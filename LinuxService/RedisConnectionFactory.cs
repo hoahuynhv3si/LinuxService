@@ -4,24 +4,30 @@ using System;
 
 namespace LinuxService
 {
+    public interface IRedisConnectionFactory
+    {
+        ConnectionMultiplexer Connection();
+    }
+
     public class RedisConnectionFactory : IRedisConnectionFactory
     {
-        /// <summary>
-        ///     The _connection.
-        /// </summary>
-        private readonly Lazy<ConnectionMultiplexer> _connection;
+        private Lazy<ConnectionMultiplexer> _connection;
 
-
-        private readonly IOptions<RedisConfiguration> redis;
+        private readonly RedisConfiguration _redisConfiguration;
 
         public RedisConnectionFactory(IOptions<RedisConfiguration> redis)
         {
-            this._connection = new Lazy<ConnectionMultiplexer>(() => ConnectionMultiplexer.Connect(redis.Value.Host));
+            _redisConfiguration = redis.Value;
         }
 
         public ConnectionMultiplexer Connection()
         {
-            return this._connection.Value;
+            if(_connection == null)
+            {
+                _connection = new Lazy<ConnectionMultiplexer>(() => ConnectionMultiplexer.Connect(_redisConfiguration.Host));
+            }
+
+            return _connection.Value;
         }
     }
 }
