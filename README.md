@@ -1,5 +1,7 @@
 # LinuxService
 
+Replace workingDirectory of myservice.service with publish folder path.
+
 Paste file myservice.service into /etc/systemd/system  
   
 Register the service:
